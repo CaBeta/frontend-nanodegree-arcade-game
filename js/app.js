@@ -112,6 +112,7 @@ class Player {
         }
         if (this.y < gameBoundaries.top) {
             this.reset();
+            alert('You Win!');
         }
     }
 }
