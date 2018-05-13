@@ -1,3 +1,7 @@
+var playerInitialPosition = { x: 202, y: 386 }
+var enemyInitialPosition = { x: -101, y: 303 }
+var gameBoundaries = {left:0,right:404,top:54,bottom:386}
+var block = {width:101,height:83}
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -15,20 +19,19 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
-    this.checkCollisions(); 
-    if(this.x>505){
+    this.checkCollisions();
+    if(this.x>gameBoundaries.right+block.width){
         this.reset();
     }
 };
 Enemy.prototype.reset = function () {
     this.speed = Math.random() * 300 + 50;
-    this.x = -101;
-    this.y = 303 - 83 - parseInt(3 * Math.random()) * 83;
+    this.x = enemyInitialPosition.x;
+    this.y = enemyInitialPosition.y - (parseInt(3 * Math.random())+1) * block.height;
 }
 Enemy.prototype.checkCollisions = function(){
     if (Math.abs(player.x - this.x) < 50 && Math.abs(player.y - this.y) < 50){
-        player.x = 202;
-        player.y = 303;
+        player.reset();
     }
 }
 // Draw the enemy on the screen, required method for game
@@ -50,39 +53,38 @@ Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
 }
 Player.prototype.reset = function(){
-    this.x = 202;
-    this.y = 303;
+    this.x = playerInitialPosition.x;
+    this.y = playerInitialPosition.y;
 }
 Player.prototype.handleInput = function(key){
     switch (key) {
         case "left":
-            this.x -= 101;
+            this.x -= block.width;
             break;
         case "up":
-            this.y -= 83;
+            this.y -= block.height;
             break;
         case "right":
-            this.x += 101;
+            this.x += block.width;
             break;
         case "down":
-            this.y += 83;
+            this.y += block.height;
             break;
         default:
             break;
     }
-    if(this.x>404){
-        this.x = 404;
+    if(this.x>gameBoundaries.right){
+        this.x = gameBoundaries.right;
     }
-    if(this.x<0){
-        this.x = 0;
+    if(this.x<gameBoundaries.left){
+        this.x = gameBoundaries.left;
     }
-    if(this.y>386){
-        this.y = 386;
+    if(this.y>gameBoundaries.bottom){
+        this.y = gameBoundaries.bottom;
     }
-    if(this.y<54){
+    if(this.y<gameBoundaries.top){
         this.reset();
     }
-    
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
