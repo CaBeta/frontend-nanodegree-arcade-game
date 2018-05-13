@@ -13,3 +13,4 @@ frontend-nanodegree-arcade-game
 
 如果你成功到达水域，那么恭喜你，你胜利了！
 
+>这个项目来源于Udacity前端开发工程师进阶课程，具体内容请参考[这里](https://cn.udacity.com/course/front-end-web-developer-nanodegree--nd001-cn-advanced)
